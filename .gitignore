@@ -1,0 +1,5 @@
+# Packer auto-generated
+plugin/packer_compiled.lua
+
+# Packer plugin installs (managed externally)
+pack/
