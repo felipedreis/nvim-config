@@ -5,7 +5,7 @@ return require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
 
   use {
-	  'nvim-telescope/telescope.nvim', tag = 'v0.2.2', requires = {{ 'nvim-lua/plenary.nvim' }}
+	  'nvim-telescope/telescope.nvim', branch = 'master', requires = {{ 'nvim-lua/plenary.nvim' }} 
   }
 
   use({'neanias/everforest-nvim'})
@@ -16,10 +16,10 @@ return require('packer').startup(function(use)
   }
 
   use("theprimeagen/harpoon")
-  use("theprimeagen/refactoring.nvim")
   use("mbbill/undotree")
   use("tpope/vim-fugitive")
-  use("nvim-treesitter/nvim-treesitter-context")
+  -- Disabled for 0.12 compatibility
+  -- use("nvim-treesitter/nvim-treesitter-context")
 
   use {
 	  'VonHeikemen/lsp-zero.nvim',
@@ -44,15 +44,20 @@ return require('packer').startup(function(use)
 	  }
   }
   use 'mfussenegger/nvim-jdtls'
+    use {
+        'ThePrimeagen/refactoring.nvim',
+        requires = {
+            {'nvim-lua/plenary.nvim'},
+            {'nvim-treesitter/nvim-treesitter'}
+        }
+    }
 
   use({
     'MeanderingProgrammer/render-markdown.nvim',
     after = { 'nvim-treesitter' },
-    requires = { 'nvim-mini/mini.nvim', opt = true },            -- if you use the mini.nvim suite
-    -- requires = { 'nvim-mini/mini.icons', opt = true },        -- if you use standalone mini plugins
-    -- requires = { 'nvim-tree/nvim-web-devicons', opt = true }, -- if you prefer nvim-web-devicons
+    requires = { 'nvim-mini/mini.nvim', opt = true },
     config = function()
         require('render-markdown').setup({})
     end,
-})
+  })
 end)
