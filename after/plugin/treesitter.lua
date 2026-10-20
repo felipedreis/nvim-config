@@ -1,18 +1,22 @@
-local status, ts = pcall(require, 'nvim-treesitter.configs')
+local status, ts = pcall(require, 'nvim-treesitter')
 if not status then
     return
 end
 
-ts.setup {
-  ensure_installed = { "vimdoc", "javascript", "typescript", "c", "lua", "rust", "markdown", "markdown_inline" },
-  sync_install = false,
-  auto_install = true,
-  highlight = {
-    enable = true,
-    -- CRITICAL: Disable nvim-treesitter highlighting for markdown.
-    -- This prevents the "range (a nil value)" crash on Neovim 0.12
+-- nvim-treesitter `main` branch: no more `nvim-treesitter.configs`.
+-- Parsers are installed explicitly (async) and highlighting is enabled per-buffer.
+ts.setup {}
+
+local parsers = { "vimdoc", "javascript", "typescript", "c", "lua", "rust", "markdown", "markdown_inline" }
+ts.install(parsers)
+
+vim.api.nvim_create_autocmd('FileType', {
+  callback = function(args)
+    -- Skip markdown: avoids the "range (a nil value)" crash on newer Neovim
     -- while still allowing render-markdown.nvim to function.
-    disable = { "markdown" },
-    additional_vim_regex_highlighting = false,
-  },
-}
+    if args.match == 'markdown' then
+      return
+    end
+    pcall(vim.treesitter.start, args.buf)
+  end,
+})

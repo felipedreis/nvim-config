@@ -1,9 +1,9 @@
 NVIM_CONFIG_DIR := $(HOME)/.config/nvim
 PACKER_DIR      := $(HOME)/.local/share/nvim/site/pack/packer/start/packer.nvim
 
-.PHONY: install packer
+.PHONY: install packer font
 
-install: packer
+install: packer font
 	@mkdir -p $(NVIM_CONFIG_DIR)
 	@cp -f init.lua $(NVIM_CONFIG_DIR)/init.lua
 	@cp -rf lua        $(NVIM_CONFIG_DIR)/
@@ -17,3 +17,6 @@ packer:
 		echo "Installing Packer..."; \
 		git clone --depth 1 https://github.com/wbthomason/packer.nvim $(PACKER_DIR); \
 	fi
+
+font:
+	@brew list --cask font-jetbrains-mono-nerd-font >/dev/null 2>&1 || brew install --cask font-jetbrains-mono-nerd-font
