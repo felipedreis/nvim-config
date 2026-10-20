@@ -15,6 +15,29 @@ return require('packer').startup(function(use)
 	  run = ':TSUpdate'
   }
 
+  use {
+    "nvim-tree/nvim-tree.lua",
+    requires = "nvim-tree/nvim-web-devicons",
+    wants = "nvim-web-devicons",
+    config = function() 
+	  local config = {
+	    sort = {
+	      sorter = "case_sensitive",
+	    },
+	    view = {
+	      width = 30,
+	    },
+	    renderer = {
+	      group_empty = true,
+	    },
+	    filters = {
+	      dotfiles = true,
+	    },
+	  }
+      require("nvim-tree").setup(config)
+    end
+  }
+
   use("theprimeagen/harpoon")
   use("mbbill/undotree")
   use("tpope/vim-fugitive")
