@@ -19,28 +19,7 @@ return require('packer').startup(function(use)
     "nvim-tree/nvim-tree.lua",
     requires = "nvim-tree/nvim-web-devicons",
     wants = "nvim-web-devicons",
-    config = function() 
-	  local config = {
-	    sort = {
-	      sorter = "case_sensitive",
-	    },
-	    view = {
-	      width = 30,
-	    },
-	    actions = {
-	      open_file = {
-	        resize_window = false, -- keep the width I dragged the tree to
-	      },
-	    },
-	    renderer = {
-	      group_empty = true,
-	    },
-	    filters = {
-	      dotfiles = true,
-	    },
-	  }
-      require("nvim-tree").setup(config)
-    end
+    -- setup lives in after/plugin/nvim-tree.lua (packer config blocks need :PackerCompile)
   }
 
   use("theprimeagen/harpoon")
