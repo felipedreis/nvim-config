@@ -27,6 +27,11 @@ return require('packer').startup(function(use)
 	    view = {
 	      width = 30,
 	    },
+	    actions = {
+	      open_file = {
+	        resize_window = false, -- keep the width I dragged the tree to
+	      },
+	    },
 	    renderer = {
 	      group_empty = true,
 	    },
