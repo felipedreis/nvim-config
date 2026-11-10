@@ -1,0 +1,3 @@
+eclipse.preferences.version=1
+# Emit -parameters so Spring Data/MVC can read parameter names from classes built by jdtls
+org.eclipse.jdt.core.compiler.codegen.methodParameters=generate

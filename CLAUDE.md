@@ -66,6 +66,25 @@ Leader key: `<Space>`
 | `<C-F>` | Launch `tmux-sessionizer` (external script) |
 | `<leader>s` | Find & replace word under cursor (project-wide) |
 | `<leader>y` / `<leader>Y` | Yank to system clipboard |
+| `<leader>c` / `o` / `i` / `x` | Debug: continue (or start) / step over / into / out (`x` is buffer-local in Java and Go) |
+| `<leader>b` / `B` | Debug: toggle / conditional breakpoint |
+| `<leader>q` / `Q` | Debug: terminate session / show session status |
+| `<leader>u` / `<leader>?` | Debug: toggle UI / evaluate expression |
+| `<leader>T` / `<leader>C` | Debug nearest test / test class (Java), nearest / last test (Go) |
+
+## Debugging (DAP)
+
+Config lives in `after/plugin/dap.lua`, `lua/felipe/gradle_debug.lua`, `ftplugin/java.lua` and `ftplugin/go.lua`.
+Plugins: `nvim-dap`, `nvim-dap-ui`, `nvim-nio`, `nvim-dap-go` (declared in `packer.lua`).
+Mason packages (`jdtls`, `java-debug-adapter`, `java-test`, `delve`) are installed automatically at startup by `after/plugin/mason-tools.lua`.
+
+`<leader>c` starts the right thing per project:
+- **Spring Boot Gradle module**: runs `./gradlew <module>:bootRun --debug-jvm` in a terminal split, then attaches (JDWP port 5005). `<leader>q` stops it and closes the split.
+- **Other Java** (Maven, plain, non-Boot Gradle): launches through jdtls (main class of the current file, else the only one, else a picker).
+- **Go**: debugs the current file's package with delve.
+
+Per-project environment variables go in `<project root>/.env.local` (`KEY=VALUE`, optional `export`). It is passed to every launch above; keep it out of git (e.g. `.git/info/exclude`).
+Compiler flag `-parameters` for jdtls builds is set in `jdtls/java-settings.prefs`.
 
 ## LSP & Completion
 
@@ -80,4 +99,7 @@ When adding a new LSP server, install it via `:MasonInstall` and add it to the `
 ## External Dependencies
 
 - **tmux** + a `tmux-sessionizer` script in `$PATH` (used by `<C-F>`)
+- **Java**: a JDK (`JAVA_HOME`, SDKMAN works); Maven or Gradle wrapper per project
+- **Go**: `go` on `$PATH` (delve itself is installed by Mason)
+- **First run on a new machine**: install Packer, run `:PackerSync`, restart Neovim; Mason then installs the tools above (check `:Mason`)
 - Tree-sitter CLI may be needed for compiling parsers (`brew install tree-sitter`)

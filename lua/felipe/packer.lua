@@ -67,6 +67,16 @@ return require('packer').startup(function(use)
 	  }
   }
   use 'mfussenegger/nvim-jdtls'
+
+  -- Debugging (DAP)
+  use {
+    'mfussenegger/nvim-dap',
+    requires = {
+      'rcarriga/nvim-dap-ui',
+      'nvim-neotest/nvim-nio',
+      'leoluz/nvim-dap-go',
+    },
+  }
     use {
         'ThePrimeagen/refactoring.nvim',
         requires = {
